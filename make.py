@@ -57,7 +57,7 @@ def install_requirements():
 @print_arg("Creating virtualenv")
 def create_virtualenv():
     """Create a virtual environment."""
-    run_cmd([PYTHON_EXE, '-m', 'venv', ENV_NAME])
+    run_cmd(['python', '-m', 'venv', ENV_NAME])
     activate_virtualenv()
     install_requirements()
 
