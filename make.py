@@ -28,15 +28,23 @@ def print_arg(text: str):
 
 def run_cmd(cmd: List[str]):
     proc = Popen(cmd, stdout=PIPE, stderr=PIPE)
-    while True:
-        line = proc.stdout.readline()
-        if not line:
-            break
-        print(line.decode('utf-8').strip())
-    proc.wait()
-    if proc.returncode != 0:
-        raise RuntimeError(
-            f"Command {' '.join(cmd)} failed with code {proc.returncode}")
+    try:
+        while True:
+            out = proc.stdout.readline()
+            err = proc.stderr.readline()
+            if out == b'' and proc.poll() is not None:
+                break
+            if out:
+                print(out.decode().strip())
+            if err:
+                print(err.decode().strip())
+        proc.wait()
+        if proc.returncode != 0:
+            raise RuntimeError(
+                f"Command {' '.join(cmd)} failed with code {proc.returncode}")
+    except KeyboardInterrupt:
+        proc.kill()
+        proc.wait()
 
 
 @print_arg("Activating virtualenv")
@@ -79,7 +87,10 @@ def main():
         create_virtualenv()
     else:
         activate_virtualenv()
-    run_server()
+    if len(sys.argv) > 1 and sys.argv[1] == 'build':
+        freeze()
+    else:
+        run_server()
 
 
 if __name__ == '__main__':
