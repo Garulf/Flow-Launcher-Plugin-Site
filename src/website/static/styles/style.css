@@ -1,0 +1,54 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 600px);
+    grid-gap: 1rem;
+    justify-content: center;
+    margin-top: 1em;
+}
+
+.plugin {
+    display: grid;
+    grid-template-columns: .5fr 1fr .5fr;
+    grid-template-rows: .2fr .2fr .2fr;
+    grid-template-areas: 
+        "icon name ."
+        "icon description download"
+        "author description .";
+    border-radius: 12px;
+    color: rgb(39, 39, 39);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.icon {
+    grid-area: icon;
+    width: 64px;
+    height: 64px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: auto;
+}
+
+.name {
+    grid-area: name;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 1rem;
+}
+
+.description {
+    grid-area: description;
+}
+
+.download {
+    grid-area: download;
+    margin: auto;
+}
+
+.author {
+    grid-area: author;
+    padding: 1rem;
+    font-size: xx-small;
+    color: #999;
+    text-align: center;
+}
